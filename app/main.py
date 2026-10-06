@@ -85,10 +85,11 @@ def root():
 
 @app.get("/health", tags=["Health"])
 def health_check():
+    db_type = "postgresql" if settings.DATABASE_URL.startswith("postgresql") else "sqlite"
     return {
         "status": "healthy",
         "provider": settings.LLM_PROVIDER,
-        "database": settings.DATABASE_URL.split("@")[-1] if "@" in settings.DATABASE_URL else "configured",
+        "database": f"{db_type} (connected)",
     }
 
 
