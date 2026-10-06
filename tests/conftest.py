@@ -27,7 +27,8 @@ queue_module.SessionLocal = TestingSessionLocal
 
 
 @pytest.fixture(autouse=True)
-def init_test_db():
+def init_test_db(monkeypatch):
+    monkeypatch.setattr(settings, "LLM_PROVIDER", "mock")
     Base.metadata.create_all(bind=engine)
     yield
     Base.metadata.drop_all(bind=engine)
